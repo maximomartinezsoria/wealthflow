@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  name          String
+  monthlySalary Float         @default(0.0)
+  totalMoney    Float         @default(0.0) // Total money across all balances
+  balances      Balance[] // The balances associated with the user
+  goals         Goal[] // The goals associated with the user
+  Transaction   Transaction[]
+}
+
+model Balance {
+  id     String @id @default(cuid())
+  name   String // Name of the balance (e.g., "savings", "investing")
+  amount Float  @default(0.0) // Current balance amount
+  usable Float  @default(0.0) // Usable balance amount (derived)
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  goals        Goal[] // Goals funded by this balance
+  transactions Transaction[] // Transactions affecting this balance
+}
+
+model Goal {
+  id           String        @id @default(cuid())
+  name         String // Name of the goal (e.g., "Home", "SP500")
+  target       Float // Target amount for the goal
+  allocated    Float         @default(0.0) // Total amount allocated toward this goal
+  balance      Balance       @relation(fields: [balanceId], references: [id])
+  balanceId    String // The balance funding this goal
+  transactions Transaction[]
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       String?
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  amount    Float // Transaction amount
+  date      DateTime // Transaction date
+  type      String // Type: "income", "expense", "transfer", or "goal allocation"
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  balance   Balance  @relation(fields: [balanceId], references: [id])
+  balanceId String
+  goal      Goal?    @relation(fields: [goalId], references: [id]) // Optional goal
+  goalId    String?
+}
