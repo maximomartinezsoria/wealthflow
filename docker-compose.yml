@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: ./wealthflow-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    volumes:
+      - ./wealthflow-api:/app
+      - /app/node_modules
+    command: pnpm run start:dev
+
+  database:
+    image: postgres:16
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wealthflow-network
+
+volumes:
+  postgres_data:
+
+networks:
+  wealthflow-network:
