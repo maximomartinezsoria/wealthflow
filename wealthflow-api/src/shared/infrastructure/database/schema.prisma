@@ -11,7 +11,7 @@ model User {
   id            String        @id @default(cuid())
   email         String        @unique
   name          String
-  monthlySalary Float         @default(0.0)
+  monthlyIncome Float         @default(0.0)
   totalMoney    Float         @default(0.0) // Total money across all balances
   balances      Balance[] // The balances associated with the user
   goals         Goal[] // The goals associated with the user

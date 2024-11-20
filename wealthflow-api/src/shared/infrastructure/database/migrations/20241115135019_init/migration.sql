@@ -3,7 +3,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "monthlySalary" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "totalMoney" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
