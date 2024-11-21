@@ -1,5 +1,5 @@
 import { User } from '@/contexts/users/domain/user.entity';
 
-export interface UserRepository {
-  save(user: User): Promise<void>;
+export abstract class UserRepository {
+  abstract save(user: User): Promise<void>;
 }
