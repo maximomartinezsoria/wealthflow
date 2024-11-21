@@ -1,17 +1,25 @@
-import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../../src/app.module';
-import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 import { defineFeature, loadFeature } from 'jest-cucumber';
-const feature = loadFeature('tests/users/userCreator/userCreator.feature');
+import * as request from 'supertest';
+
+import { AppModule } from '@/app.module';
+import { CreateUserInput } from '@/contexts/users/infrastructure/prisma-user-repository/dtos/create-user.input';
+import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
+
+const feature = loadFeature('tests/users/user-creator/user-creator.feature');
 
 let app: INestApplication;
 let prisma: PrismaService;
-let response: request.Response;
+let userData: CreateUserInput = {
+  name: '',
+  email: '',
+  monthlyIncome: -1,
+  totalMoney: -1,
+};
 
 defineFeature(feature, (test) => {
-  test('Create a new user', ({ given, when, then, and }) => {
+  test('Create a new user', ({ given, when, then }) => {
     given('the API is running', async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [AppModule],
@@ -27,22 +35,38 @@ defineFeature(feature, (test) => {
     when(
       /^I send a request to create a user with the email (.*) and name (.*)$/,
       async (email: string, name: string) => {
-        response = await request(app.getHttpServer())
-          .post('/users')
-          .send({ email, name });
+        userData = {
+          email,
+          name,
+          monthlyIncome: 1000,
+          totalMoney: 1000,
+        };
+
+        await request(app.getHttpServer())
+          .post('/graphql')
+          .set('Content-Type', 'application/json')
+          .send({
+            query: `mutation CreateItem($input: CreateUserInput!) {
+                createUser(input: $input) {
+                  id
+                }
+              }`,
+            variables: {
+              input: userData,
+            },
+          });
       },
     );
 
-    then(/^the response status should be (.*)$/, (statusCode: number) => {
-      expect(response.status).toBe(statusCode);
-    });
-
-    and('the user should exist in the database', async () => {
+    then('the user should exist in the database', async () => {
       const user = await prisma.user.findUnique({
-        where: { email: 'john@example.com' },
+        where: { email: userData.email },
       });
       expect(user).toBeDefined();
-      expect(user?.name).toBe('John Doe');
+      expect(user?.email).toBe(userData.email);
+      expect(user?.name).toBe(userData.name);
+      expect(user?.monthlyIncome).toBe(userData?.monthlyIncome);
+      expect(user?.totalMoney).toBe(userData?.totalMoney);
     });
   });
 });
