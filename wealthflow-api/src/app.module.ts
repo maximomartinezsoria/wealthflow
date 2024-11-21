@@ -1,8 +1,10 @@
+import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
-import { TransactionModule } from './contexts/transaction.module';
+
+import { UsersModule } from '@/contexts/users/users.module';
+import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
 
 @Module({
   imports: [
@@ -11,7 +13,8 @@ import { TransactionModule } from './contexts/transaction.module';
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       playground: true,
     }),
-    TransactionModule,
+    DatabaseModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

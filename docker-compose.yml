@@ -12,6 +12,8 @@ services:
     volumes:
       - ./wealthflow-api:/app
       - /app/node_modules
+    networks:
+      - wealthflow-network
     command: pnpm start:dev
 
   database:
