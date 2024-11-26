@@ -21,16 +21,10 @@ export default function DashboardPage() {
     transactions,
     income,
     payday,
-    incomeDistribution,
     isDarkMode,
     addTransaction,
-    addBalance,
-    removeBalance,
     addGoal,
     removeGoal,
-    setIncome,
-    setPayday,
-    setIncomeDistribution,
     toggleDarkMode,
   } = useStore()
 
@@ -78,17 +72,7 @@ export default function DashboardPage() {
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
           <BalanceDistribution balances={balances} />
-          <IncomeDistribution
-            income={income}
-            setIncome={setIncome}
-            payday={payday}
-            setPayday={setPayday}
-            balances={balances}
-            incomeDistribution={incomeDistribution}
-            setIncomeDistribution={setIncomeDistribution}
-            removeBalance={removeBalance}
-            addBalance={addBalance}
-          />
+          <IncomeDistribution />
           <FinancialGoals
             goals={goals}
             balances={balances}
