@@ -57,7 +57,7 @@ export function FinancialGoals({ goals, balances, addGoal, removeGoal }: Financi
               <SelectContent>
                 {balances.map((balance) => (
                   <SelectItem key={balance.name} value={balance.name}>
-{balance.name}
+                    {balance.name}
                   </SelectItem>
                 ))}
               </SelectContent>
