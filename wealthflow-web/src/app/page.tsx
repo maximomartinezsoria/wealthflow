@@ -61,7 +61,7 @@ export default function DashboardPage() {
   return (
     <div className={`flex flex-col min-h-screen bg-background ${isDarkMode ? 'dark' : ''}`}>
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      <main className="flex-1 py-6 px-4 md:px-6">
+      <main className="container flex-1 py-6">
         <SummaryCards
           totalBalance={totalBalance}
           income={income}
