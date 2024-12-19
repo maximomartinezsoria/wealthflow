@@ -1,6 +1,8 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
 
+import { JwtAuthGuard } from '@/contexts/auth/jwt-auth.guard';
 import { UserCreator } from '@/contexts/users/application/user-creator/user-creator';
 import {
   CreateUserInput,
@@ -24,6 +26,7 @@ export class UserResolver {
     ];
   }
 
+  @UseGuards(JwtAuthGuard)
   @Query(() => UserObjectType, { nullable: true })
   async user(@Args('id') id: string): Promise<UserObjectType | null> {
     return {
@@ -39,20 +42,25 @@ export class UserResolver {
   async createUser(
     @Args('input') input: CreateUserInput,
   ): Promise<UserObjectType> {
-    const user = await this.userCreator.execute({
-      id: input.id ?? uuidv4(),
-      email: input.email,
-      name: input.name,
-      monthlyIncome: input.monthlyIncome,
-      totalMoney: input.totalMoney,
-    });
+    try {
+      const user = await this.userCreator.execute({
+        id: input.id ?? uuidv4(),
+        email: input.email,
+        name: input.name,
+        monthlyIncome: input.monthlyIncome,
+        totalMoney: input.totalMoney,
+      });
 
-    return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      monthlyIncome: user.monthlyIncome,
-      totalMoney: user.totalMoney,
-    };
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        monthlyIncome: user.monthlyIncome,
+        totalMoney: user.totalMoney,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error creating user');
+    }
   }
 }
