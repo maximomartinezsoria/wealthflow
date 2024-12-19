@@ -10,8 +10,6 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm prisma generate
-
 EXPOSE 3000
 
 CMD ["pnpm", "start:dev"]

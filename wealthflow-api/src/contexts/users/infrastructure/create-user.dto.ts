@@ -1,6 +1,8 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
+@InputType('UserInput')
+@ObjectType('User')
 class UserBase {
   @Field(() => ID)
   @IsString()
@@ -32,4 +34,7 @@ export class CreateUserInput extends UserBase {
 }
 
 @ObjectType()
-export class UserObjectType extends UserBase {}
+export class UserObjectType extends UserBase {
+  @Field(() => ID, { nullable: false })
+  id: string;
+}
