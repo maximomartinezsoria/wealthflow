@@ -21,8 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       issuer: `${configService.get('CLERK_ISSUER_URL')}`,
       algorithms: ['RS256'],
     });
-
-    console.log(configService.get('CLERK_ISSUER_URL'));
   }
 
   validate(payload: unknown): unknown {
