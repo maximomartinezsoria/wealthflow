@@ -11,7 +11,7 @@ import { DatabaseModule } from '@/shared/infrastructure/database/database.module
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: '../../.env',
       isGlobal: true,
     }),
     GraphQLModule.forRoot({
