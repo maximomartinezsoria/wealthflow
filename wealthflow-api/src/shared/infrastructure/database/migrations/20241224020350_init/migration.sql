@@ -5,6 +5,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "totalMoney" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "payday" INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -15,6 +16,7 @@ CREATE TABLE "Balance" (
     "name" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "usable" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "color" TEXT NOT NULL DEFAULT '#FF6384',
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Balance_pkey" PRIMARY KEY ("id")
@@ -47,6 +49,9 @@ CREATE TABLE "Transaction" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Balance_name_key" ON "Balance"("name");
 
 -- AddForeignKey
 ALTER TABLE "Balance" ADD CONSTRAINT "Balance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

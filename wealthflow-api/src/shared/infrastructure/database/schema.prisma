@@ -13,6 +13,7 @@ model User {
   name          String
   monthlyIncome Float         @default(0.0)
   totalMoney    Float         @default(0.0) // Total money across all balances
+  payday        Int           @default(1) // Day of the month when the user gets paid
   balances      Balance[] // The balances associated with the user
   goals         Goal[] // The goals associated with the user
   Transaction   Transaction[]
@@ -20,13 +21,16 @@ model User {
 
 model Balance {
   id     String @id @default(cuid())
-  name   String // Name of the balance (e.g., "savings", "investing")
+  name   String @unique // Name of the balance (e.g., "savings", "investing")
   amount Float  @default(0.0) // Current balance amount
   usable Float  @default(0.0) // Usable balance amount (derived)
+  color  String @default("#FF6384")
   user         User          @relation(fields: [userId], references: [id])
   userId       String
   goals        Goal[] // Goals funded by this balance
   transactions Transaction[] // Transactions affecting this balance
+  
+  @@unique([userId, name])
 }
 
 model Goal {
