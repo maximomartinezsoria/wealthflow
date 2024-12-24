@@ -16,6 +16,7 @@ let userData: CreateUserInput = {
   email: '',
   monthlyIncome: -1,
   totalMoney: -1,
+  payday: 1,
 };
 
 defineFeature(feature, (test) => {
@@ -40,6 +41,7 @@ defineFeature(feature, (test) => {
           name,
           monthlyIncome: 1000,
           totalMoney: 1000,
+          payday: 1,
         };
 
         await request(app.getHttpServer())
