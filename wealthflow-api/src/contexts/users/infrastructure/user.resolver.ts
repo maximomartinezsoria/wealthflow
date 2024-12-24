@@ -4,38 +4,30 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { JwtAuthGuard } from '@/contexts/auth/jwt-auth.guard';
 import { UserCreator } from '@/contexts/users/application/user-creator/user-creator';
+import { UserFinder } from '@/contexts/users/application/user-finder/user-finder';
 import {
   CreateUserInput,
   UserObjectType,
 } from '@/contexts/users/infrastructure/create-user.dto';
+import { ServerErrorException } from '@/shared/domain/exceptions/server-error.exception';
 
 @Resolver(() => UserObjectType)
 export class UserResolver {
-  constructor(private readonly userCreator: UserCreator) {}
-
-  @Query(() => [UserObjectType])
-  async users(): Promise<UserObjectType[]> {
-    return [
-      {
-        id: '1',
-        email: 'john@doe.com',
-        name: 'John Doe',
-        monthlyIncome: 1000,
-        totalMoney: 1000,
-      },
-    ];
-  }
+  constructor(
+    private readonly userCreator: UserCreator,
+    private readonly userFinder: UserFinder,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Query(() => UserObjectType, { nullable: true })
-  async user(@Args('id') id: string): Promise<UserObjectType | null> {
-    return {
-      id,
-      email: 'john@doe.com',
-      name: 'John Doe',
-      monthlyIncome: 1000,
-      totalMoney: 1000,
-    };
+  async user(@Args('email') email: string): Promise<UserObjectType | null> {
+    try {
+      const user = await this.userFinder.execute(email);
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw new ServerErrorException();
+    }
   }
 
   @Mutation(() => UserObjectType)
@@ -49,18 +41,13 @@ export class UserResolver {
         name: input.name,
         monthlyIncome: input.monthlyIncome,
         totalMoney: input.totalMoney,
+        payday: input.payday,
       });
 
-      return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        monthlyIncome: user.monthlyIncome,
-        totalMoney: user.totalMoney,
-      };
+      return user;
     } catch (error) {
       console.error(error);
-      throw new Error('Error creating user');
+      throw new ServerErrorException();
     }
   }
 }

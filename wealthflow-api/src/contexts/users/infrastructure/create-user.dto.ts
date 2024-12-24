@@ -1,5 +1,12 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 @InputType('UserInput')
 @ObjectType('User')
@@ -25,6 +32,12 @@ class UserBase {
   @Field()
   @IsNumber()
   totalMoney: number;
+
+  @Field()
+  @IsNumber()
+  @Min(1)
+  @Max(31)
+  payday: number;
 }
 
 @InputType()
