@@ -19,6 +19,7 @@ describe('UserCreator Use Case', () => {
       email: 'john@example.com',
       monthlyIncome: 1000,
       totalMoney: 10000,
+      payday: 1,
     };
 
     await userCreator.execute(dto);
@@ -29,6 +30,7 @@ describe('UserCreator Use Case', () => {
       dto.name,
       dto.monthlyIncome,
       dto.totalMoney,
+      dto.payday,
     );
 
     expect(userRepository.save).toHaveBeenCalledWith(user);

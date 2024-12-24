@@ -4,4 +4,5 @@ export interface UserCreatorDto {
   name: string;
   monthlyIncome: number;
   totalMoney: number;
+  payday: number;
 }
