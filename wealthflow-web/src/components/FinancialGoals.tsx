@@ -1,34 +1,56 @@
-import { Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Balance, Goal } from '@/lib/store'
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Balance, Goal } from "@/lib/store";
 
 interface FinancialGoalsProps {
-  goals: Goal[]
-  balances: Balance[]
-  addGoal: (goal: Goal) => void
-  removeGoal: (name: string) => void
+  goals: Goal[];
+  balances: Balance[];
+  addGoal: (goal: Goal) => void;
+  removeGoal: (name: string) => void;
 }
 
-export function FinancialGoals({ goals, balances, addGoal, removeGoal }: FinancialGoalsProps) {
-  const [newGoalName, setNewGoalName] = useState('')
-  const [newGoalTarget, setNewGoalTarget] = useState('')
-  const [newGoalBalance, setNewGoalBalance] = useState('')
+export function FinancialGoals({
+  goals,
+  balances,
+  addGoal,
+  removeGoal,
+}: FinancialGoalsProps) {
+  const [newGoalName, setNewGoalName] = useState("");
+  const [newGoalTarget, setNewGoalTarget] = useState("");
+  const [newGoalBalance, setNewGoalBalance] = useState("");
 
   const handleAddGoal = () => {
-    const target = parseFloat(newGoalTarget)
+    const target = parseFloat(newGoalTarget);
     if (newGoalName && !isNaN(target) && target > 0 && newGoalBalance) {
-      addGoal({ name: newGoalName, current: 0, target, balance: newGoalBalance })
-      setNewGoalName('')
-      setNewGoalTarget('')
-      setNewGoalBalance('')
+      addGoal({
+        name: newGoalName,
+        current: 0,
+        target,
+        balance: newGoalBalance,
+      });
+      setNewGoalName("");
+      setNewGoalTarget("");
+      setNewGoalBalance("");
     }
-  }
+  };
 
   return (
     <Card className="col-span-full">
@@ -68,11 +90,18 @@ export function FinancialGoals({ goals, balances, addGoal, removeGoal }: Financi
             {goals.map((goal, index) => (
               <div key={index} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span>{goal.name} ({goal.balance})</span>
-                  <span>${goal.current.toFixed(2)} / ${goal.target.toFixed(2)}</span>
+                  <span>
+                    {goal.name} ({goal.balance})
+                  </span>
+                  <span>
+                    ${goal.current.toFixed(2)} / ${goal.target.toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Progress value={(goal.current / goal.target) * 100} className="flex-grow" />
+                  <Progress
+                    value={(goal.current / goal.target) * 100}
+                    className="flex-grow"
+                  />
                   <Button
                     variant="destructive"
                     size="icon"
@@ -88,6 +117,5 @@ export function FinancialGoals({ goals, balances, addGoal, removeGoal }: Financi
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
-
