@@ -51,3 +51,10 @@ export class UserObjectType extends UserBase {
   @Field(() => ID, { nullable: false })
   id: string;
 }
+
+@InputType()
+export class FindUserInput {
+  @Field(() => ID)
+  @IsString()
+  id: string;
+}

@@ -5,20 +5,20 @@ import { MockUserRepository } from '@/contexts/users/tests/mocks/mock-user-repos
 describe('UserFinder Use Case', () => {
   let userFinder: UserFinder;
   let userRepository: MockUserRepository;
-  const email = 'john@doe.com';
+  const id = '1';
 
   beforeEach(() => {
     userRepository = new MockUserRepository();
     userFinder = new UserFinder(userRepository);
   });
 
-  it('should call the repository with the received email', async () => {
-    await userFinder.execute(email);
-    expect(userRepository.findByEmail).toHaveBeenCalledWith(email);
+  it('should call the repository with the received id', async () => {
+    await userFinder.execute(id);
+    expect(userRepository.find).toHaveBeenCalledWith(id);
   });
 
   it('should return the user found by the repository', async () => {
-    const repositoryUser = await userFinder.execute(email);
+    const repositoryUser = await userFinder.execute(id);
 
     const user = new User(
       repositoryUser.id,
@@ -29,16 +29,12 @@ describe('UserFinder Use Case', () => {
       repositoryUser.payday,
     );
 
-    expect(userRepository.findByEmail).toHaveReturnedWith(
-      Promise.resolve(user),
-    );
+    expect(userRepository.find).toHaveReturnedWith(Promise.resolve(user));
   });
 
   it('should return null if the user is not found', async () => {
-    await userFinder.execute('non-existent@email.com');
+    await userFinder.execute('1');
 
-    expect(userRepository.findByEmail).toHaveReturnedWith(
-      Promise.resolve(null),
-    );
+    expect(userRepository.find).toHaveReturnedWith(Promise.resolve(null));
   });
 });

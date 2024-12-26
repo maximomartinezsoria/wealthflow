@@ -33,7 +33,7 @@ export class BalanceResolver {
       ]);
 
       return balances[0];
-    } catch (error) {
+    } catch {
       throw new ServerErrorException();
     }
   }
@@ -43,7 +43,6 @@ export class BalanceResolver {
   async createBalances(
     @Args('input') input: CreateBalancesInput,
   ): Promise<BalancesObjectType> {
-    console.log('gello');
     try {
       const balances = await this.balanceCreator.execute(
         input.balances.map((balanceInput) => ({
@@ -56,8 +55,8 @@ export class BalanceResolver {
       );
 
       return { balances };
-    } catch (error) {
-      // throw new ServerErrorException();
+    } catch {
+      throw new ServerErrorException();
     }
   }
 }

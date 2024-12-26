@@ -16,8 +16,8 @@ defineFeature(feature, (test) => {
 
   test('Find a user', ({ when, then }) => {
     when(
-      /^I send a request to find a user with the email (.*)$/,
-      async (email: string) => {
+      /^I send a request to find a user with id "(.*)"$/,
+      async (id: string) => {
         userResponse = await request(app.getHttpServer())
           .post('/graphql')
           .set('Content-Type', 'application/json')
@@ -30,7 +30,7 @@ defineFeature(feature, (test) => {
               }`,
             variables: {
               input: {
-                email,
+                id,
               },
             },
           });
@@ -43,8 +43,8 @@ defineFeature(feature, (test) => {
 
   test('User not found', ({ when, then }) => {
     when(
-      /^I send a request to find a non-existent user with the email (.*)$/,
-      async (email: string) => {
+      /^I send a request to find a non-existent user with id "(.*)"$/,
+      async (id: string) => {
         userResponse = await request(app.getHttpServer())
           .post('/graphql')
           .set('Content-Type', 'application/json')
@@ -57,7 +57,7 @@ defineFeature(feature, (test) => {
             }`,
             variables: {
               input: {
-                email,
+                id,
               },
             },
           });

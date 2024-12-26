@@ -7,8 +7,9 @@ import { UserCreator } from '@/contexts/users/application/user-creator/user-crea
 import { UserFinder } from '@/contexts/users/application/user-finder/user-finder';
 import {
   CreateUserInput,
+  FindUserInput,
   UserObjectType,
-} from '@/contexts/users/infrastructure/create-user.dto';
+} from '@/contexts/users/infrastructure/user.dto';
 import { ServerErrorException } from '@/shared/domain/exceptions/server-error.exception';
 
 @Resolver(() => UserObjectType)
@@ -20,9 +21,11 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => UserObjectType, { nullable: true })
-  async user(@Args('email') email: string): Promise<UserObjectType | null> {
+  async user(
+    @Args('input') input: FindUserInput,
+  ): Promise<UserObjectType | null> {
     try {
-      const user = await this.userFinder.execute(email);
+      const user = await this.userFinder.execute(input.id);
       return user;
     } catch (error) {
       console.error(error);
@@ -30,6 +33,7 @@ export class UserResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => UserObjectType)
   async createUser(
     @Args('input') input: CreateUserInput,

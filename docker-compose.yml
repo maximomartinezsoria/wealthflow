@@ -1,35 +1,34 @@
 version: '3.9'
 services:
-  api:
-    build:
-      context: ./wealthflow-api
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      - database
-    volumes:
-      - ./wealthflow-api:/app
-      - /app/node_modules
-    networks:
-      - wealthflow-network
-    command: pnpm start:dev
-
   database:
     image: postgres:16
     container_name: postgres
     ports:
       - "5432:5432"
     env_file:
-      - .env
+      - ./wealthflow-api/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - wealthflow-network
 
+  database_test:
+    image: postgres:16
+    container_name: postgres_test
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - wealthflow-network
+
 volumes:
   postgres_data:
+  postgres_test_data:
 
 networks:
   wealthflow-network:

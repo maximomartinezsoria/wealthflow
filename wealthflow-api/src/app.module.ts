@@ -12,7 +12,7 @@ import { GlobalModule } from '@/shared/global.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '../../.env',
+      envFilePath: process.env.NODE_ENV === 'test' ? '../.env.test' : '../.env',
       isGlobal: true,
     }),
     GraphQLModule.forRoot({

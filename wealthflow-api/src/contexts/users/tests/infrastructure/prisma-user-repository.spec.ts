@@ -6,7 +6,7 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 describe('Prisma User Repository', () => {
   let prismaService: UserMockPrismaService;
   let userRepository: PrismaUserRepository;
-  const email = 'john@doe.com';
+  const id = '1';
 
   beforeEach(() => {
     prismaService = new UserMockPrismaService();
@@ -15,21 +15,21 @@ describe('Prisma User Repository', () => {
     );
   });
 
-  describe('findByEmail', () => {
-    it('should call prismaService with given email', async () => {
-      await userRepository.findByEmail(email);
+  describe('find', () => {
+    it('should call prismaService with given id', async () => {
+      await userRepository.find(id);
       expect(prismaService.user.findUnique).toHaveBeenCalledWith({
-        where: { email },
+        where: { id },
       });
     });
 
     it('should return user', async () => {
-      const user = await userRepository.findByEmail(email);
+      const user = await userRepository.find(id);
       expect(user).toBeInstanceOf(User);
     });
 
     it('should return null if user does not exist', async () => {
-      const user = await userRepository.findByEmail('other@email.com');
+      const user = await userRepository.find('2');
       expect(user).toBeNull();
     });
   });
@@ -42,6 +42,7 @@ describe('Prisma User Repository', () => {
         name: 'John Doe',
         monthlyIncome: 1000,
         totalMoney: 1000,
+        payday: 1,
       };
 
       await userRepository.save(
@@ -51,7 +52,7 @@ describe('Prisma User Repository', () => {
           user.name,
           user.monthlyIncome,
           user.totalMoney,
-          1,
+          user.payday,
         ),
       );
 

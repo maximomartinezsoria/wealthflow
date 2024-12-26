@@ -1,7 +1,7 @@
 import { User } from '@/contexts/users/domain/user.entity';
 
 export abstract class UserRepository {
-  abstract findByEmail(email: string): Promise<User | null>;
+  abstract find(id: string): Promise<User | null>;
 
   abstract save(user: User): Promise<void>;
 

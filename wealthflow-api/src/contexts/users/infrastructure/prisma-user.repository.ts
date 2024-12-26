@@ -8,10 +8,10 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User | null> {
+  async find(id: string): Promise<User | null> {
     const user = await this.prismaService.user.findUnique({
       where: {
-        email,
+        id,
       },
     });
 
@@ -37,6 +37,7 @@ export class PrismaUserRepository implements UserRepository {
         name: user.name,
         monthlyIncome: user.monthlyIncome,
         totalMoney: user.totalMoney,
+        payday: user.payday,
       },
     });
   }

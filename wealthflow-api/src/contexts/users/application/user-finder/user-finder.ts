@@ -7,7 +7,7 @@ import { UserRepository } from '@/contexts/users/domain/user.repository';
 export class UserFinder {
   constructor(private readonly userRepository: UserRepository) {}
 
-  execute(email: string): Promise<User | null> {
-    return this.userRepository.findByEmail(email);
+  execute(id: string): Promise<User | null> {
+    return this.userRepository.find(id);
   }
 }

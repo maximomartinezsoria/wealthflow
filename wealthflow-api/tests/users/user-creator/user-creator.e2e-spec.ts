@@ -4,7 +4,7 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import * as request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { CreateUserInput } from '@/contexts/users/infrastructure/create-user.dto';
+import { CreateUserInput } from '@/contexts/users/infrastructure/user.dto';
 import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 
 const feature = loadFeature('tests/users/user-creator/user-creator.feature');
