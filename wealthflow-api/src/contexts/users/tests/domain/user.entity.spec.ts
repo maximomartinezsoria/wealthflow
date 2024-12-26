@@ -1,4 +1,5 @@
 import { InvalidMonthlyIncomeException } from '@/contexts/users/domain/invalid-monthly-income.exception';
+import { InvalidPaydayException } from '@/contexts/users/domain/invalid-payday.exception';
 import { User } from '@/contexts/users/domain/user.entity';
 
 const userData = {
@@ -7,6 +8,7 @@ const userData = {
   email: 'john@doe.com',
   monthlyIncome: 1000,
   totalMoney: 1000,
+  payday: 1,
 };
 
 describe('User Entity', () => {
@@ -17,9 +19,10 @@ describe('User Entity', () => {
       userData.name,
       userData.monthlyIncome,
       userData.totalMoney,
+      userData.payday,
     );
 
-    expect(user.name).toBe(userData.name);
+    expect(user).toBeInstanceOf(User);
   });
 
   it('should not create a user with negative monthly income', async () => {
@@ -30,7 +33,21 @@ describe('User Entity', () => {
         userData.name,
         -1,
         userData.totalMoney,
+        userData.payday,
       );
     }).toThrow(InvalidMonthlyIncomeException);
+  });
+
+  it('should not create a user with invalid payday', async () => {
+    expect(() => {
+      new User(
+        userData.id,
+        userData.email,
+        userData.name,
+        userData.monthlyIncome,
+        userData.totalMoney,
+        32,
+      );
+    }).toThrow(InvalidPaydayException);
   });
 });

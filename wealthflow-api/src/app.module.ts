@@ -5,13 +5,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 
 import { AuthModule } from '@/contexts/auth/auth.module';
+import { BalancesModule } from '@/contexts/balances/balances.module';
 import { UsersModule } from '@/contexts/users/users.module';
-import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
+import { GlobalModule } from '@/shared/global.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '../../.env',
+      envFilePath: process.env.NODE_ENV === 'test' ? '../.env.test' : '../.env',
       isGlobal: true,
     }),
     GraphQLModule.forRoot({
@@ -19,9 +20,10 @@ import { DatabaseModule } from '@/shared/infrastructure/database/database.module
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       playground: true,
     }),
+    GlobalModule,
     AuthModule,
-    DatabaseModule,
     UsersModule,
+    BalancesModule,
   ],
   controllers: [],
   providers: [],

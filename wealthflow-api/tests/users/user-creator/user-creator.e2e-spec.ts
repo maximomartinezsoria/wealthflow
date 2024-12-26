@@ -4,7 +4,7 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import * as request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { CreateUserInput } from '@/contexts/users/infrastructure/create-user.dto';
+import { CreateUserInput } from '@/contexts/users/infrastructure/user.dto';
 import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 
 const feature = loadFeature('tests/users/user-creator/user-creator.feature');
@@ -16,6 +16,7 @@ let userData: CreateUserInput = {
   email: '',
   monthlyIncome: -1,
   totalMoney: -1,
+  payday: 1,
 };
 
 defineFeature(feature, (test) => {
@@ -40,6 +41,7 @@ defineFeature(feature, (test) => {
           name,
           monthlyIncome: 1000,
           totalMoney: 1000,
+          payday: 1,
         };
 
         await request(app.getHttpServer())

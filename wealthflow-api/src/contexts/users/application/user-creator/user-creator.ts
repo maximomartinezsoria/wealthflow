@@ -15,6 +15,7 @@ export class UserCreator {
       userCreatorDto.name,
       userCreatorDto.monthlyIncome,
       userCreatorDto.totalMoney,
+      userCreatorDto.payday,
     );
 
     await this.userRepository.save(user);

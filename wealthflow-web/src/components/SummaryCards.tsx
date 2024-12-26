@@ -1,14 +1,14 @@
-import { CreditCard, DollarSign, PlusCircle, Target } from 'lucide-react'
+import { CreditCard, DollarSign, Target } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface SummaryCardsProps {
-  totalBalance: number
-  income: number
-  payday: number
-  goalsCount: number
-  completedGoalsCount: number
-  transactionsCount: number
+  totalBalance: number;
+  income: number;
+  payday: number;
+  goalsCount: number;
+  completedGoalsCount: number;
+  transactionsCount: number;
 }
 
 export function SummaryCards({
@@ -17,10 +17,9 @@ export function SummaryCards({
   payday,
   goalsCount,
   completedGoalsCount,
-  transactionsCount
 }: SummaryCardsProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-3">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
@@ -57,19 +56,6 @@ export function SummaryCards({
           </p>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Recent Transactions</CardTitle>
-          <PlusCircle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{transactionsCount}</div>
-          <p className="text-xs text-muted-foreground">
-            in the last 30 days
-          </p>
-        </CardContent>
-      </Card>
     </div>
-  )
+  );
 }
-

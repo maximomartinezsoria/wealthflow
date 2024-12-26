@@ -1,7 +1,7 @@
-import { Moon, Sun } from 'lucide-react'
-import Image from 'next/image'
+import { Moon, Sun } from "lucide-react";
+import Image from "next/image";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
-  isDarkMode: boolean
-  toggleDarkMode: () => void
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 export function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
@@ -25,7 +25,11 @@ export function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDarkMode ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -43,7 +47,9 @@ export function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">John Doe</p>
-                  <p className="text-xs leading-none text-muted-foreground">john@example.com</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    john@example.com
+                  </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -55,6 +61,5 @@ export function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
         </div>
       </div>
     </header>
-  )
+  );
 }
-
