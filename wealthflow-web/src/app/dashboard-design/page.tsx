@@ -57,7 +57,7 @@ export default function DashboardPage() {
     : sortedTransactions;
 
   const totalBalance = balances.reduce(
-    (sum, balance) => sum + balance.value,
+    (sum, balance) => sum + balance.amount,
     0,
   );
 
