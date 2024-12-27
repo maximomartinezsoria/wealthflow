@@ -42,9 +42,9 @@ export function FinancialGoals({
     if (newGoalName && !isNaN(target) && target > 0 && newGoalBalance) {
       addGoal({
         name: newGoalName,
-        current: 0,
+        allocated: 0,
         target,
-        balance: newGoalBalance,
+        balanceId: newGoalBalance,
       });
       setNewGoalName("");
       setNewGoalTarget("");
@@ -91,15 +91,15 @@ export function FinancialGoals({
               <div key={index} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span>
-                    {goal.name} ({goal.balance})
+                    {goal.name} ({goal.balanceId})
                   </span>
                   <span>
-                    ${goal.current.toFixed(2)} / ${goal.target.toFixed(2)}
+                    ${goal.allocated.toFixed(2)} / ${goal.target.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Progress
-                    value={(goal.current / goal.target) * 100}
+                    value={(goal.allocated / goal.target) * 100}
                     className="flex-grow"
                   />
                   <Button

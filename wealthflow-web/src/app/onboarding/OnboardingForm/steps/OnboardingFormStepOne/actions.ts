@@ -45,7 +45,6 @@ export async function createUser(userDTO: CreateUserDTO) {
         name: userDTO.name,
         monthlyIncome: userDTO.monthlyIncome,
         payday: userDTO.payday,
-        totalMoney: userDTO.totalMoney,
       },
     },
   });

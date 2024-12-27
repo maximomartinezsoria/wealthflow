@@ -195,7 +195,7 @@ export function Transactions({
                     <SelectContent>
                       <SelectItem value="no_goal">No Goal</SelectItem>
                       {goals
-                        .filter((goal) => goal.balance === transactionBalance)
+                        .filter((goal) => goal.balanceId === transactionBalance)
                         .map((goal) => (
                           <SelectItem key={goal.name} value={goal.name}>
                             {goal.name}
