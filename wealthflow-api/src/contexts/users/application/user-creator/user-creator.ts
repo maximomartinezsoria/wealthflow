@@ -14,7 +14,8 @@ export class UserCreator {
       userCreatorDto.email,
       userCreatorDto.name,
       userCreatorDto.monthlyIncome,
-      userCreatorDto.totalMoney,
+      0, // total money is 0 when creating a new user. It only gets updated when the user creates a new transaction or balance
+      0, // last month total money start at 0
       userCreatorDto.payday,
     );
 

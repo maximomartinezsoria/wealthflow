@@ -42,6 +42,7 @@ describe('Prisma User Repository', () => {
         name: 'John Doe',
         monthlyIncome: 1000,
         totalMoney: 1000,
+        lastMonthTotalMoney: 1000,
         payday: 1,
       };
 
@@ -52,6 +53,7 @@ describe('Prisma User Repository', () => {
           user.name,
           user.monthlyIncome,
           user.totalMoney,
+          user.lastMonthTotalMoney,
           user.payday,
         ),
       );

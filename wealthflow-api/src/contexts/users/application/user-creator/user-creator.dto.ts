@@ -3,6 +3,5 @@ export interface UserCreatorDto {
   email: string;
   name: string;
   monthlyIncome: number;
-  totalMoney: number;
   payday: number;
 }

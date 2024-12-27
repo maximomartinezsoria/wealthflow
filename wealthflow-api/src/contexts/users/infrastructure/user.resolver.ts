@@ -44,7 +44,6 @@ export class UserResolver {
         email: input.email,
         name: input.name,
         monthlyIncome: input.monthlyIncome,
-        totalMoney: input.totalMoney,
         payday: input.payday,
       });
 

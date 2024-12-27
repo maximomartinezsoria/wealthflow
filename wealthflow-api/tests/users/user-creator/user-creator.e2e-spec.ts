@@ -15,7 +15,6 @@ let userData: CreateUserInput = {
   name: '',
   email: '',
   monthlyIncome: -1,
-  totalMoney: -1,
   payday: 1,
 };
 
@@ -40,7 +39,6 @@ defineFeature(feature, (test) => {
           email,
           name,
           monthlyIncome: 1000,
-          totalMoney: 1000,
           payday: 1,
         };
 
@@ -68,7 +66,6 @@ defineFeature(feature, (test) => {
       expect(user?.email).toBe(userData.email);
       expect(user?.name).toBe(userData.name);
       expect(user?.monthlyIncome).toBe(userData?.monthlyIncome);
-      expect(user?.totalMoney).toBe(userData?.totalMoney);
     });
   });
 });

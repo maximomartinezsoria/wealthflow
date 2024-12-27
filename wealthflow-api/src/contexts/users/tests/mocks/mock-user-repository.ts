@@ -9,6 +9,7 @@ export class MockUserRepository implements UserRepository {
       name: 'John Doe',
       monthlyIncome: 5000,
       totalMoney: 10000,
+      lastMonthTotalMoney: 10000,
       payday: 1,
     },
   ];

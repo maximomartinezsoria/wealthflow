@@ -25,6 +25,7 @@ export class PrismaUserRepository implements UserRepository {
       user.name,
       user.monthlyIncome,
       user.totalMoney,
+      user.lastMonthTotalMoney,
       user.payday,
     );
   }
@@ -37,6 +38,7 @@ export class PrismaUserRepository implements UserRepository {
         name: user.name,
         monthlyIncome: user.monthlyIncome,
         totalMoney: user.totalMoney,
+        lastMonthTotalMoney: user.totalMoney,
         payday: user.payday,
       },
     });

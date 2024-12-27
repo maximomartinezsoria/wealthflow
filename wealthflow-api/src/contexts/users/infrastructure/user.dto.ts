@@ -31,10 +31,6 @@ class UserBase {
 
   @Field()
   @IsNumber()
-  totalMoney: number;
-
-  @Field()
-  @IsNumber()
   @Min(1)
   @Max(31)
   payday: number;
@@ -50,6 +46,14 @@ export class CreateUserInput extends UserBase {
 export class UserObjectType extends UserBase {
   @Field(() => ID, { nullable: false })
   id: string;
+
+  @Field()
+  @IsNumber()
+  totalMoney: number;
+
+  @Field()
+  @IsNumber()
+  lastMonthTotalMoney: number;
 }
 
 @InputType()

@@ -8,6 +8,7 @@ export class User {
     public readonly name: string,
     public readonly monthlyIncome: number,
     public readonly totalMoney: number,
+    public readonly lastMonthTotalMoney: number,
     public readonly payday: number,
   ) {
     if (monthlyIncome < 0) {

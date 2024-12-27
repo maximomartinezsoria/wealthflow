@@ -18,7 +18,6 @@ describe('UserCreator Use Case', () => {
       name: 'John Doe',
       email: 'john@example.com',
       monthlyIncome: 1000,
-      totalMoney: 10000,
       payday: 1,
     };
 
@@ -29,7 +28,8 @@ describe('UserCreator Use Case', () => {
       dto.email,
       dto.name,
       dto.monthlyIncome,
-      dto.totalMoney,
+      0,
+      0,
       dto.payday,
     );
 
