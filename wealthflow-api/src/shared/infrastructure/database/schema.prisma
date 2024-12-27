@@ -17,7 +17,7 @@ model User {
   payday              Int           @default(1) // Day of the month when the user gets paid
   balances            Balance[] // The balances associated with the user
   goals               Goal[] // The goals associated with the user
-  Transaction         Transaction[]
+  transactions        Transaction[]
 }
 
 model Balance {
