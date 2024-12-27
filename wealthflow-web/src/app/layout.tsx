@@ -1,12 +1,6 @@
 import "./globals.css";
 
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider, SignedOut, SignInButton } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 const poppins = Poppins({
@@ -33,9 +27,6 @@ export default async function RootLayout({
           <SignedOut>
             <SignInButton />
           </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
           {children}
         </body>
       </html>
