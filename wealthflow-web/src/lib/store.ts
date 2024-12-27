@@ -27,12 +27,23 @@ export type Balance = {
 
 export type Goal = {
   name: string;
-  current: number;
   target: number;
-  balance: string;
+  allocated: number;
+  balanceId: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  monthlyIncome: number;
+  totalMoney: number;
+  lastMonthTotalMoney: number;
+  payday: number;
 };
 
 type State = {
+  user: User;
   balances: Balance[];
   goals: Goal[];
   transactions: Transaction[];
@@ -40,6 +51,7 @@ type State = {
   payday: number;
   incomeDistribution: Record<string, number>;
   isDarkMode: boolean;
+  setUser: (user: User) => void;
   addBalance: (balance: Omit<Balance, "color">) => void;
   updateBalance: (name: string, updates: Partial<Balance>) => void;
   removeBalance: (name: string) => void;
@@ -56,6 +68,15 @@ type State = {
 export const useStore = create<State>()(
   persist(
     (set) => ({
+      user: {
+        id: "",
+        email: "",
+        name: "",
+        monthlyIncome: 0,
+        totalMoney: 0,
+        lastMonthTotalMoney: 0,
+        payday: 1,
+      },
       balances: [],
       goals: [],
       transactions: [],
@@ -63,6 +84,7 @@ export const useStore = create<State>()(
       payday: 1,
       incomeDistribution: {},
       isDarkMode: false,
+      setUser: (user) => set({ user }),
       addTransaction: (transaction) =>
         set((state) => ({
           transactions: [
@@ -101,7 +123,7 @@ export const useStore = create<State>()(
         set((state) => ({
           goals: state.goals.map((goal) =>
             goal.name === name
-              ? { ...goal, current: goal.current + amount }
+              ? { ...goal, current: goal.allocated + amount }
               : goal,
           ),
         })),

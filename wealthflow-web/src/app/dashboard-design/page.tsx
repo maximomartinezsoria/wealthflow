@@ -6,7 +6,7 @@ import { BalanceDistribution } from "@/components/BalanceDistribution";
 import { FinancialGoals } from "@/components/FinancialGoals";
 import { Header } from "@/components/Header";
 import { IncomeDistribution } from "@/components/IncomeDistribution";
-import { SummaryCards } from "@/components/SummaryCards";
+import { ScoreCards } from "@/components/ScoreCards/ScoreCards";
 import { Transactions } from "@/components/Transactions";
 import { Transaction, useStore } from "@/lib/store";
 
@@ -19,13 +19,10 @@ export default function DashboardPage() {
     balances,
     goals,
     transactions,
-    income,
-    payday,
     isDarkMode,
     addTransaction,
     addGoal,
     removeGoal,
-    toggleDarkMode,
   } = useStore();
 
   useEffect(() => {
@@ -56,27 +53,13 @@ export default function DashboardPage() {
     ? sortedTransactions.filter((t) => t.balance === filterBalance)
     : sortedTransactions;
 
-  const totalBalance = balances.reduce(
-    (sum, balance) => sum + balance.amount,
-    0,
-  );
-
   return (
     <div
       className={`flex flex-col min-h-screen bg-background ${isDarkMode ? "dark" : ""}`}
     >
-      <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <Header />
       <main className="container flex-1 py-6">
-        <SummaryCards
-          totalBalance={totalBalance}
-          income={income}
-          payday={payday}
-          goalsCount={goals.length}
-          completedGoalsCount={
-            goals.filter((goal) => goal.current >= goal.target).length
-          }
-          transactionsCount={transactions.length}
-        />
+        <ScoreCards />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
           <BalanceDistribution balances={balances} />
           <IncomeDistribution />
