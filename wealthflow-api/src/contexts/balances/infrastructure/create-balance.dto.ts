@@ -40,6 +40,10 @@ export class CreateBalanceInput extends BalanceBase {
 export class BalanceObjectType extends BalanceBase {
   @Field(() => ID, { nullable: false })
   id: string;
+
+  @Field()
+  @IsNumber()
+  usable: number;
 }
 
 @InputType()

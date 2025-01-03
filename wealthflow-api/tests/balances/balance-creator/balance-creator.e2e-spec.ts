@@ -45,6 +45,10 @@ defineFeature(feature, (test) => {
     prisma = _prisma;
   });
 
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
   test('Create Balance', ({ when, then }) => {
     let balanceResponse: request.Response;
 

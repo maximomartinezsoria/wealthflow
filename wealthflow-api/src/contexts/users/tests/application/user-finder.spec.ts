@@ -26,7 +26,6 @@ describe('UserFinder Use Case', () => {
       repositoryUser.name,
       repositoryUser.monthlyIncome,
       repositoryUser.totalMoney,
-      repositoryUser.lastMonthTotalMoney,
       repositoryUser.payday,
     );
 

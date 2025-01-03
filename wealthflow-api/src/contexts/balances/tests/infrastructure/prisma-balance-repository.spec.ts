@@ -16,6 +16,25 @@ describe('Prisma Balance Repository', () => {
     );
   });
 
+  describe('findById', () => {
+    it('should call prismaService with given balanceId', async () => {
+      await balanceRepository.findById('1');
+      expect(prismaService.balance.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+      });
+    });
+
+    it('should return balance', async () => {
+      const balance = await balanceRepository.findById('1');
+      expect(balance).toBeInstanceOf(Balance);
+    });
+
+    it('should return null if balance does not exist', async () => {
+      const balance = await balanceRepository.findById('2');
+      expect(balance).toBeNull();
+    });
+  });
+
   describe('findByUserId', () => {
     it('should call prismaService with given userId', async () => {
       await balanceRepository.findByUserId(userId);
@@ -60,6 +79,35 @@ describe('Prisma Balance Repository', () => {
 
       expect(prismaService.balance.createMany).toHaveBeenCalledWith({
         data: [{ ...balance }],
+      });
+    });
+  });
+
+  describe('update', () => {
+    it('should call prismaService with given balanceId and balance', async () => {
+      const balanceData = {
+        id: '1',
+        name: 'Savings',
+        amount: 1000,
+        usable: 1000,
+        userId: '1',
+        color: '#000000',
+      };
+
+      const balance = new Balance(
+        balanceData.id,
+        balanceData.name,
+        balanceData.amount,
+        balanceData.usable,
+        balanceData.userId,
+        balanceData.color,
+      );
+
+      await balanceRepository.update('1', balance);
+
+      expect(prismaService.balance.update).toHaveBeenCalledWith({
+        where: { id: '1' },
+        data: { ...balance },
       });
     });
   });

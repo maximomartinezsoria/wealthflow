@@ -6,6 +6,7 @@ import { join } from 'path';
 
 import { AuthModule } from '@/contexts/auth/auth.module';
 import { BalancesModule } from '@/contexts/balances/balances.module';
+import { TransactionsModule } from '@/contexts/transactions/transactions.module';
 import { UsersModule } from '@/contexts/users/users.module';
 import { GlobalModule } from '@/shared/global.module';
 
@@ -19,11 +20,16 @@ import { GlobalModule } from '@/shared/global.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       playground: true,
+      formatError: (error) => {
+        console.log('GraphQL Error:', error);
+        return error;
+      },
     }),
     GlobalModule,
     AuthModule,
     UsersModule,
     BalancesModule,
+    TransactionsModule,
   ],
   controllers: [],
   providers: [],

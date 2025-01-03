@@ -1,7 +1,7 @@
 import { BalanceCreator } from '@/contexts/balances/application/balance-creator/balance-creator';
 import { Balance } from '@/contexts/balances/domain/balance.entity';
 import { MockBalanceRepository } from '@/contexts/balances/tests/mocks/mock-balance-repository';
-import { BalanceUpsertedEvent } from '@/shared/domain/events/balance-upserted.event';
+import { BalanceCreatedEvent } from '@/shared/domain/events/balance-created.event';
 import { MockEventDispatcher } from '@/shared/tests/mocks/mock-event-dispatcher';
 
 const balanceCreatorDto = [
@@ -48,11 +48,11 @@ describe('BalanceCreator Use Case', () => {
     expect(balanceRepository.findByUserId).toHaveBeenCalledWith('101');
   });
 
-  it('should dispatch a BalanceUpsertedEvent', async () => {
+  it('should dispatch a BalanceCreatedEvent', async () => {
     await balanceCreator.execute(balanceCreatorDto);
 
     expect(eventDispatcher.dispatch).toHaveBeenCalledWith(
-      expect.any(BalanceUpsertedEvent),
+      expect.any(BalanceCreatedEvent),
     );
   });
 });

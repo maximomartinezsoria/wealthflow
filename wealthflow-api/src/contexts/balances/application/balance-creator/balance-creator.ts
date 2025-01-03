@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { BalanceCreatorDto } from '@/contexts/balances/application/balance-creator/balance-creator.dto';
 import { Balance } from '@/contexts/balances/domain/balance.entity';
 import { BalanceRepository } from '@/contexts/balances/domain/balance.repository';
-import { BalanceUpsertedEvent } from '@/shared/domain/events/balance-upserted.event';
+import { BalanceCreatedEvent } from '@/shared/domain/events/balance-created.event';
 import { EventDispatcher } from '@/shared/domain/events/event-dispatcher';
 
 @Injectable()
@@ -29,16 +29,11 @@ export class BalanceCreator {
 
     await this.balanceRepository.save(balances);
 
-    const dbBalances = await this.balanceRepository.findByUserId(userId);
-
-    const totalBalancesAmount = dbBalances.reduce(
-      (total, balance) => total + balance.amount,
-      0,
-    );
-
-    await this.eventDispatcher.dispatch(
-      new BalanceUpsertedEvent(userId, totalBalancesAmount),
-    );
+    for (const balance of balances) {
+      await this.eventDispatcher.dispatch(
+        new BalanceCreatedEvent(userId, balance.id, balance.amount),
+      );
+    }
 
     return balances;
   }

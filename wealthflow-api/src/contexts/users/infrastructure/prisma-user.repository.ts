@@ -25,7 +25,6 @@ export class PrismaUserRepository implements UserRepository {
       user.name,
       user.monthlyIncome,
       user.totalMoney,
-      user.lastMonthTotalMoney,
       user.payday,
     );
   }
@@ -38,7 +37,6 @@ export class PrismaUserRepository implements UserRepository {
         name: user.name,
         monthlyIncome: user.monthlyIncome,
         totalMoney: user.totalMoney,
-        lastMonthTotalMoney: user.totalMoney,
         payday: user.payday,
       },
     });
@@ -54,6 +52,32 @@ export class PrismaUserRepository implements UserRepository {
       },
       data: {
         ...userFields,
+      },
+    });
+  }
+
+  async incrementTotalMoney(userId: string, amount: number): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        totalMoney: {
+          increment: amount,
+        },
+      },
+    });
+  }
+
+  async decrementTotalMoney(userId: string, amount: number): Promise<void> {
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        totalMoney: {
+          decrement: amount,
+        },
       },
     });
   }

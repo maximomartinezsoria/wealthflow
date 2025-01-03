@@ -10,5 +10,6 @@
     "^@/(.*)$": "<rootDir>/../src/$1",
     "^@/contexts/(.*)$": "<rootDir>/../src/contexts/$1",
     "^tests/(.*)$": "<rootDir>/$1"
-  }
+  },
+  "maxConcurrency": 1
 }

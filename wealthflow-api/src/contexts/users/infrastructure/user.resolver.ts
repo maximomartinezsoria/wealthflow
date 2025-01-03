@@ -28,7 +28,7 @@ export class UserResolver {
       const user = await this.userFinder.execute(input.id);
       return user;
     } catch (error) {
-      console.error(error);
+      console.error('user', error);
       throw new ServerErrorException();
     }
   }
@@ -49,7 +49,7 @@ export class UserResolver {
 
       return user;
     } catch (error) {
-      console.error(error);
+      console.error('createUser', error);
       throw new ServerErrorException();
     }
   }

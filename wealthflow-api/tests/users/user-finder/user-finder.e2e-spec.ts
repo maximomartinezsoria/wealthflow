@@ -3,15 +3,23 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import * as request from 'supertest';
 import { initializeTestApp } from 'tests/utils/initializeTestApp';
 
+import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
+
 const feature = loadFeature('tests/users/user-finder/user-finder.feature');
 
 let app: INestApplication;
+let prisma: PrismaService;
 let userResponse: request.Response;
 
 defineFeature(feature, (test) => {
   beforeAll(async () => {
-    const { app: _app } = await initializeTestApp();
+    const { app: _app, prisma: _prisma } = await initializeTestApp();
     app = _app;
+    prisma = _prisma;
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
   });
 
   test('Find a user', ({ when, then }) => {

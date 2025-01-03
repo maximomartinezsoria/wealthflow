@@ -8,7 +8,6 @@ const userData = {
   email: 'john@doe.com',
   monthlyIncome: 1000,
   totalMoney: 1000,
-  lastMonthTotalMoney: 1000,
   payday: 1,
 };
 
@@ -20,7 +19,6 @@ describe('User Entity', () => {
       userData.name,
       userData.monthlyIncome,
       userData.totalMoney,
-      userData.lastMonthTotalMoney,
       userData.payday,
     );
 
@@ -33,7 +31,6 @@ describe('User Entity', () => {
         userData.id,
         userData.email,
         userData.name,
-        -1,
         -1,
         userData.totalMoney,
         userData.payday,
@@ -49,7 +46,6 @@ describe('User Entity', () => {
         userData.name,
         userData.monthlyIncome,
         userData.totalMoney,
-        userData.lastMonthTotalMoney,
         32,
       );
     }).toThrow(InvalidPaydayException);
