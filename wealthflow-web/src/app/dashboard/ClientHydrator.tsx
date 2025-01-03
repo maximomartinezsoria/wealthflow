@@ -2,18 +2,23 @@
 
 import { useEffect } from "react";
 
-import { User, useStore } from "@/lib/store";
+import { Balance, Transaction, User, useStore } from "@/lib/store";
 
 type Props = {
   user: User;
+  balances: Balance[];
+  transactions: Transaction[];
 };
 
-export function ClientHydrator({ user }: Props) {
-  const { setUser } = useStore();
+export function ClientHydrator({ user, balances, transactions }: Props) {
+  const { setUser, setBalances, setTransactions } = useStore();
 
   useEffect(() => {
     setUser(user);
-  }, [user, setUser]);
+    setBalances(balances);
+    setTransactions(transactions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return null;
 }

@@ -7,7 +7,7 @@ import { FinancialGoals } from "@/components/FinancialGoals";
 import { Header } from "@/components/Header";
 import { IncomeDistribution } from "@/components/IncomeDistribution";
 import { ScoreCards } from "@/components/ScoreCards/ScoreCards";
-import { Transactions } from "@/components/Transactions";
+import { Transactions } from "@/components/Transactions/Transactions";
 import { Transaction, useStore } from "@/lib/store";
 
 export default function DashboardPage() {
