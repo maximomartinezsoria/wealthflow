@@ -1,5 +1,3 @@
-import { TransactionType } from '@prisma/client';
-
 import { Transaction } from '@/contexts/transactions/domain/transaction.entity';
 
 const userId = '1';
@@ -16,7 +14,7 @@ export class TransactionMockPrismaService {
           new Transaction(
             '1',
             1000,
-            TransactionType.INCOME,
+            'INCOME',
             userId,
             '1',
             '',

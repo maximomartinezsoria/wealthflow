@@ -33,7 +33,6 @@ export class TransactionResolver {
     try {
       const user = context.req.user;
       const userId = user.userId;
-      console.log(input);
       const transactions = await this.transactionFinder.execute({
         userId,
         criteria: input.criteria,

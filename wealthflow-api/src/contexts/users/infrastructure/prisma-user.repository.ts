@@ -8,6 +8,22 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma.service';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAll(): Promise<User[]> {
+    const users = await this.prismaService.user.findMany();
+
+    return users.map(
+      (user) =>
+        new User(
+          user.id,
+          user.email,
+          user.name,
+          user.monthlyIncome,
+          user.totalMoney,
+          user.payday,
+        ),
+    );
+  }
+
   async find(id: string): Promise<User | null> {
     const user = await this.prismaService.user.findUnique({
       where: {

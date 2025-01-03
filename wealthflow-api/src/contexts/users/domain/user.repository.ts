@@ -1,6 +1,8 @@
 import { User } from '@/contexts/users/domain/user.entity';
 
 export abstract class UserRepository {
+  abstract findAll(): Promise<User[]>;
+
   abstract find(id: string): Promise<User | null>;
 
   abstract save(user: User): Promise<void>;

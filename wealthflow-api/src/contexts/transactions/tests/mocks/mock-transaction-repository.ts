@@ -1,5 +1,3 @@
-import { TransactionType } from '@prisma/client';
-
 import { Transaction } from '@/contexts/transactions/domain/transaction.entity';
 import { TransactionRepository } from '@/contexts/transactions/domain/transaction.repository';
 import { FindTransactionCriteria } from '@/contexts/transactions/infrastructure/transaction.dto';
@@ -9,7 +7,7 @@ export class MockTransactionRepository implements TransactionRepository {
     {
       id: '1',
       amount: 1000,
-      type: TransactionType.INCOME,
+      type: 'INCOME',
       userId: '1',
       balanceId: '1',
       balanceToId: '',
