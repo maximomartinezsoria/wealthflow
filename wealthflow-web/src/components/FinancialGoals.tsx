@@ -30,7 +30,7 @@ interface FinancialGoalsProps {
 export function FinancialGoals({
   goals,
   balances,
-  addGoal,
+  // addGoal,
   removeGoal,
 }: FinancialGoalsProps) {
   const [newGoalName, setNewGoalName] = useState("");
@@ -40,12 +40,12 @@ export function FinancialGoals({
   const handleAddGoal = () => {
     const target = parseFloat(newGoalTarget);
     if (newGoalName && !isNaN(target) && target > 0 && newGoalBalance) {
-      addGoal({
-        name: newGoalName,
-        allocated: 0,
-        target,
-        balanceId: newGoalBalance,
-      });
+      // addGoal({
+      //   name: newGoalName,
+      //   allocated: 0,
+      //   target,
+      //   balanceId: newGoalBalance,
+      // });
       setNewGoalName("");
       setNewGoalTarget("");
       setNewGoalBalance("");
