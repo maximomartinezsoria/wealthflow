@@ -13,6 +13,10 @@ export class MockBalanceRepository implements BalanceRepository {
     },
   ];
 
+  findById = jest.fn(async (balanceId: string): Promise<Balance> => {
+    return this.balances.find((balance) => balance.id === balanceId) || null;
+  });
+
   findByUserId = jest.fn(async (userId: string): Promise<Balance[]> => {
     return this.balances.filter((balance) => balance.userId === userId) || null;
   });
@@ -20,4 +24,15 @@ export class MockBalanceRepository implements BalanceRepository {
   save = jest.fn(async (balances: Balance[]): Promise<void> => {
     this.balances.push(...balances);
   });
+
+  update = jest.fn(
+    async (balanceId: string, balance: Partial<Balance>): Promise<Balance> => {
+      const index = this.balances.findIndex(
+        (balance) => balance.id === balanceId,
+      );
+      this.balances[index] = { ...this.balances[index], ...balance };
+
+      return this.balances[index];
+    },
+  );
 }

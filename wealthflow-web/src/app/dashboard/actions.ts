@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import { currentUser } from "@clerk/nextjs/server";
 
 import { createApolloClient } from "@/lib/apolloClient";
+import { Transaction } from "@/lib/store";
 
 export async function getUser() {
   const client = await createApolloClient();
@@ -25,7 +26,6 @@ export async function getUser() {
             name
             monthlyIncome
             totalMoney
-            lastMonthTotalMoney
             payday
           }
         }
@@ -75,6 +75,72 @@ export async function getGoals() {
     });
 
     return data.user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getBalances() {
+  const client = await createApolloClient();
+
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query FindBalances {
+          balances {
+            balances {
+              id
+              name
+              amount
+              usable
+              color
+            }
+          }
+        }
+      `,
+    });
+
+    return data.balances?.balances;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+interface GetTransactionsCriteria {
+  fromDate?: Transaction["createdAt"];
+  toDate?: Transaction["createdAt"];
+  transactionType?: Transaction["type"];
+  balanceId?: Transaction["balanceId"];
+}
+
+export async function getTransactions(criteria: GetTransactionsCriteria) {
+  const client = await createApolloClient();
+
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query FindTransactions($input: FindTransactionInput!) {
+          transactions(input: $input) {
+            transactions {
+              id
+              amount
+              type
+              balanceId
+              balanceToId
+              goalId
+              createdAt
+            }
+          }
+        }
+      `,
+      variables: {
+        input: {
+          criteria,
+        },
+      },
+    });
+
+    return data.transactions?.transactions;
   } catch (error) {
     console.log(error);
   }

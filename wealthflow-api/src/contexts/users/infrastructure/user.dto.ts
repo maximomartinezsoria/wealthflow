@@ -50,10 +50,6 @@ export class UserObjectType extends UserBase {
   @Field()
   @IsNumber()
   totalMoney: number;
-
-  @Field()
-  @IsNumber()
-  lastMonthTotalMoney: number;
 }
 
 @InputType()

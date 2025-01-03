@@ -1,12 +1,13 @@
 import { DomainEvent } from '@/shared/domain/events/domain-event';
 
-export class BalanceUpsertedEvent implements DomainEvent {
-  readonly eventName = 'BalanceUpserted';
+export class BalanceDecrementedEvent implements DomainEvent {
+  readonly eventName = 'BalanceDecremented';
   readonly occurredOn: Date;
 
   constructor(
     public readonly userId: string,
-    public readonly totalBalancesAmount: number,
+    public readonly balanceId: string,
+    public readonly amount: number,
   ) {
     this.occurredOn = new Date();
   }

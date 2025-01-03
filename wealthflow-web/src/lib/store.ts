@@ -1,14 +1,29 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export enum TransactionType {
+  Income = "INCOME",
+  Expense = "EXPENSE",
+  BalanceTransfer = "BALANCE_TRANSFER",
+  GoalAllocation = "GOAL_ALLOCATION",
+  GoalDisallocation = "GOAL_DISALLOCATION",
+}
+
+export const transactionTypes = Object.values(TransactionType).map((type) => ({
+  key: type,
+  value: type
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" "),
+}));
+
 export type Transaction = {
   id: number;
-  date: string;
-  description: string;
   amount: number;
-  type: "in" | "out";
-  balance: string;
-  goal?: string;
+  type: TransactionType;
+  balanceId: string;
+  goalId: string;
+  createdAt: Date;
 };
 
 export enum BalanceColor {
@@ -19,6 +34,7 @@ export enum BalanceColor {
 }
 
 export type Balance = {
+  id: string;
   name: string;
   amount: number;
   usable: number;
@@ -26,6 +42,7 @@ export type Balance = {
 };
 
 export type Goal = {
+  id: string;
   name: string;
   target: number;
   allocated: number;
@@ -52,6 +69,8 @@ type State = {
   incomeDistribution: Record<string, number>;
   isDarkMode: boolean;
   setUser: (user: User) => void;
+  setBalances: (balances: Balance[]) => void;
+  setTransactions: (transactions: Transaction[]) => void;
   addBalance: (balance: Omit<Balance, "color">) => void;
   updateBalance: (name: string, updates: Partial<Balance>) => void;
   removeBalance: (name: string) => void;
@@ -92,6 +111,8 @@ export const useStore = create<State>()(
             { ...transaction, id: Date.now() },
           ],
         })),
+      setBalances: (balances) => set({ balances }),
+      setTransactions: (transactions) => set({ transactions }),
       addBalance: (balance) =>
         set((state) => ({
           balances: [

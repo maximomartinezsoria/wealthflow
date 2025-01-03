@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import axios from 'axios';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
@@ -23,7 +24,21 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: unknown): unknown {
-    return payload;
+  async validate(payload) {
+    const userId = payload.sub;
+    const clerkApiKey = this.configService.get('CLERK_API_KEY');
+    const clerkApiUrl = `${this.configService.get(
+      'CLERK_API_BASE_URL',
+    )}/users/${userId}`;
+
+    const { data: user } = await axios.get(clerkApiUrl, {
+      headers: {
+        Authorization: `Bearer ${clerkApiKey}`,
+      },
+    });
+
+    return {
+      userId: user.private_metadata?.userId,
+    };
   }
 }

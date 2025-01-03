@@ -13,23 +13,25 @@ model User {
   name                String
   monthlyIncome       Float         @default(0.0)
   totalMoney          Float         @default(0.0) // Total money across all balances
-  lastMonthTotalMoney Float         @default(0.0)
   payday              Int           @default(1) // Day of the month when the user gets paid
   balances            Balance[] // The balances associated with the user
   goals               Goal[] // The goals associated with the user
   transactions        Transaction[]
+  createdAt   DateTime        @default(now())
 }
 
 model Balance {
-  id           String        @id @default(cuid())
-  name         String        @unique // Name of the balance (e.g., "savings", "investing")
-  amount       Float         @default(0.0) // Current balance amount
-  usable       Float         @default(0.0) // Usable balance amount (derived)
-  color        String        @default("#FF6384")
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
-  goals        Goal[] // Goals funded by this balance
-  transactions Transaction[] // Transactions affecting this balance
+  id             String        @id @default(cuid())
+  name           String        @unique // Name of the balance (e.g., "savings", "investing")
+  amount         Float         @default(0.0) // Current balance amount
+  usable         Float         @default(0.0) // Usable balance amount (derived)
+  color          String        @default("#FF6384")
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String
+  goals          Goal[] // Goals funded by this balance
+  transactions   Transaction[] @relation("FromBalance")
+  toTransactions Transaction[] @relation("ToBalance")
+  createdAt   DateTime        @default(now())
 
   @@unique([userId, name])
 }
@@ -44,17 +46,28 @@ model Goal {
   transactions Transaction[]
   User         User?         @relation(fields: [userId], references: [id])
   userId       String?
+  createdAt   DateTime        @default(now())
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  BALANCE_TRANSFER
+  GOAL_ALLOCATION
+  GOAL_DISALLOCATION
 }
 
 model Transaction {
-  id        String   @id @default(cuid())
-  amount    Float // Transaction amount
-  date      DateTime // Transaction date
-  type      String // Type: "income", "expense", "transfer", or "goal allocation"
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  balance   Balance  @relation(fields: [balanceId], references: [id])
-  balanceId String
-  goal      Goal?    @relation(fields: [goalId], references: [id]) // Optional goal
-  goalId    String?
+  id          String          @id @default(cuid())
+  amount      Float // Transaction amount
+  type        TransactionType @default(INCOME)
+  user        User            @relation(fields: [userId], references: [id])
+  userId      String
+  balance     Balance         @relation("FromBalance", fields: [balanceId], references: [id], map: "Transaction_FromBalance_FK")
+  balanceId   String
+  balanceTo   Balance?        @relation("ToBalance", fields: [balanceId], references: [id], map: "Transaction_ToBalance_FK") // Optional balance for transfers
+  balanceToId String?
+  goal        Goal?           @relation(fields: [goalId], references: [id]) // Optional goal
+  goalId      String?
+  createdAt   DateTime        @default(now())
 }

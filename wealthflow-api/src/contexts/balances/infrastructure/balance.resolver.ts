@@ -1,9 +1,10 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
 
 import { JwtAuthGuard } from '@/contexts/auth/jwt-auth.guard';
 import { BalanceCreator } from '@/contexts/balances/application/balance-creator/balance-creator';
+import { BalanceFinder } from '@/contexts/balances/application/balance-finder/balance-finder';
 import {
   BalanceObjectType,
   BalancesObjectType,
@@ -14,7 +15,10 @@ import { ServerErrorException } from '@/shared/domain/exceptions/server-error.ex
 
 @Resolver(() => BalanceObjectType)
 export class BalanceResolver {
-  constructor(private readonly balanceCreator: BalanceCreator) {}
+  constructor(
+    private readonly balanceCreator: BalanceCreator,
+    private readonly balanceFinder: BalanceFinder,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => BalanceObjectType)
@@ -55,7 +59,23 @@ export class BalanceResolver {
       );
 
       return { balances };
-    } catch {
+    } catch (error) {
+      console.log('createBalances', error);
+      throw new ServerErrorException();
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => BalancesObjectType)
+  async balances(@Context() context): Promise<BalancesObjectType> {
+    try {
+      const user = context.req.user;
+      const userId = user.userId;
+      const balances = await this.balanceFinder.execute(userId);
+
+      return { balances };
+    } catch (error) {
+      console.log('balances', error);
       throw new ServerErrorException();
     }
   }

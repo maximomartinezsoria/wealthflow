@@ -5,7 +5,6 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "totalMoney" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
-    "lastMonthTotalMoney" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     "payday" INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

@@ -17,6 +17,7 @@ export function OnboardingFormStepTwo() {
 
   const handleAddBalance = () => {
     addBalance({
+      id: Date.now().toString(),
       name: "",
       amount: 0,
       usable: 0,

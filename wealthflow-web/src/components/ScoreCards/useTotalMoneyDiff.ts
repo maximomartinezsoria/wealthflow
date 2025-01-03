@@ -15,7 +15,9 @@ export function useTotalMoneyDiff({ totalMoney, lastMonthTotalMoney }: Props) {
 
   return {
     diffFromLastMonth,
-    diffFromLastMonthPercentage,
+    diffFromLastMonthPercentage: Number.isNaN(diffFromLastMonth)
+      ? "-"
+      : diffFromLastMonthPercentage,
     diffFromLastMonthSign,
   };
 }

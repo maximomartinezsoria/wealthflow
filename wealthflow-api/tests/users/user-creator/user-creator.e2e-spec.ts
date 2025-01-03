@@ -11,10 +11,10 @@ const feature = loadFeature('tests/users/user-creator/user-creator.feature');
 
 let app: INestApplication;
 let prisma: PrismaService;
-let userData: CreateUserInput = {
-  name: '',
-  email: '',
-  monthlyIncome: -1,
+const userData: CreateUserInput = {
+  name: 'John Doe',
+  email: 'john@doe.com',
+  monthlyIncome: 1000,
   payday: 1,
 };
 
@@ -32,16 +32,13 @@ defineFeature(feature, (test) => {
       await prisma.$connect();
     });
 
+    afterAll(async () => {
+      await prisma.$disconnect();
+    });
+
     when(
       /^I send a request to create a user with the email (.*) and name (.*)$/,
       async (email: string, name: string) => {
-        userData = {
-          email,
-          name,
-          monthlyIncome: 1000,
-          payday: 1,
-        };
-
         await request(app.getHttpServer())
           .post('/graphql')
           .set('Content-Type', 'application/json')
@@ -52,7 +49,12 @@ defineFeature(feature, (test) => {
                 }
               }`,
             variables: {
-              input: userData,
+              input: {
+                email,
+                name,
+                monthlyIncome: userData.monthlyIncome,
+                payday: userData.payday,
+              },
             },
           });
       },
@@ -66,6 +68,7 @@ defineFeature(feature, (test) => {
       expect(user?.email).toBe(userData.email);
       expect(user?.name).toBe(userData.name);
       expect(user?.monthlyIncome).toBe(userData?.monthlyIncome);
+      expect(user?.payday).toBe(userData?.payday);
     });
   });
 });
