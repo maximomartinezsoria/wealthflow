@@ -13,6 +13,10 @@ export class MockUserRepository implements UserRepository {
     },
   ];
 
+  findAll = jest.fn(async (): Promise<User[]> => {
+    return this.users;
+  });
+
   find = jest.fn(async (id: string): Promise<User | null> => {
     return this.users.find((user) => user.id === id) || null;
   });
